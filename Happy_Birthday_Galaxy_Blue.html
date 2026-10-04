@@ -1,0 +1,2366 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday ♡</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+  font-family:'Quicksand',sans-serif;
+  background:#edf6ff;
+  color:#18344d;
+}
+
+button{
+  font-family:inherit;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================
+   PIN
+========================= */
+
+#pinScreen{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 50% 20%,#fff 0,#e8f5ff 32%,#b9dafa 100%);
+}
+
+.pin-card{
+  width:min(92vw,370px);
+  padding:34px 25px 27px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:30px;
+  background:rgba(255,255,255,.7);
+  backdrop-filter:blur(18px);
+  box-shadow:0 25px 70px rgba(48,104,155,.2);
+}
+
+.pin-icon{
+  font-size:40px;
+  margin-bottom:7px;
+}
+
+.pin-title{
+  font-family:'Baloo 2',cursive;
+  font-size:31px;
+  line-height:1;
+  color:#20557f;
+}
+
+.pin-subtitle{
+  margin:8px 0 20px;
+  font-size:13px;
+  color:#62819b;
+}
+
+.pin-dots{
+  display:flex;
+  justify-content:center;
+  gap:11px;
+  margin-bottom:21px;
+}
+
+.dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  border:2px solid #76a9d3;
+  background:white;
+}
+
+.dot.filled{
+  background:#347db4;
+  border-color:#347db4;
+}
+
+.dot.error{
+  background:#d96b7b;
+  border-color:#d96b7b;
+  animation:shake .3s;
+}
+
+.numpad{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.num-btn{
+  height:56px;
+  border:1px solid #d0e4f4;
+  border-radius:18px;
+  background:rgba(255,255,255,.8);
+  color:#285575;
+  font-size:19px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.num-btn:active{
+  transform:scale(.94);
+}
+
+.pin-hint{
+  margin-top:17px;
+  font-size:11px;
+  color:#7893a9;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+#loadingScreen{
+  position:fixed;
+  inset:0;
+  z-index:90;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 50% 25%,#fff 0,#e9f6ff 35%,#a9d1ed 100%);
+}
+
+.loading-box{
+  width:min(88vw,420px);
+  padding:34px 30px;
+  text-align:center;
+  border-radius:32px;
+  background:rgba(255,255,255,.75);
+  border:1px solid white;
+  box-shadow:0 30px 80px rgba(40,95,135,.2);
+}
+
+.loading-photo{
+  width:150px;
+  height:150px;
+  object-fit:cover;
+  display:block;
+  margin:0 auto 20px;
+  border-radius:50%;
+  padding:7px;
+  background:white;
+  box-shadow:0 12px 35px rgba(57,127,180,.25);
+}
+
+.loading-box h2{
+  font-family:'Baloo 2',cursive;
+  color:#245a82;
+  font-size:25px;
+}
+
+.loading-box p{
+  font-size:12px;
+  color:#7894a9;
+  margin-top:5px;
+}
+
+.loading-bar{
+  width:100%;
+  height:7px;
+  margin-top:25px;
+  border-radius:20px;
+  background:#dcecf8;
+  overflow:hidden;
+}
+
+#loadingProgress{
+  width:0;
+  height:100%;
+  border-radius:20px;
+  background:linear-gradient(90deg,#397fb4,#82b9df);
+}
+
+.loading-percent{
+  margin-top:10px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:#6d8ba2;
+}
+
+/* =========================
+   PLAYLIST
+========================= */
+
+#playlistScreen{
+  position:fixed;
+  inset:0;
+  z-index:40;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:linear-gradient(145deg,#f7fcff,#d9edff 55%,#bddafa);
+}
+
+.playlist-card{
+  width:min(92vw,480px);
+  padding:25px;
+  border-radius:28px;
+  background:rgba(255,255,255,.82);
+  border:1px solid white;
+  box-shadow:0 25px 70px rgba(45,101,151,.18);
+}
+
+.pl-top{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.album{
+  width:74px;
+  height:74px;
+  border-radius:20px;
+  object-fit:cover;
+}
+
+.pl-kicker{
+  font-size:10px;
+  letter-spacing:2px;
+  color:#7290a8;
+  font-weight:700;
+}
+
+.pl-title{
+  font-family:'Baloo 2',cursive;
+  font-size:29px;
+  color:#21577f;
+  line-height:1.05;
+}
+
+.pl-sub{
+  font-size:12px;
+  color:#6f8ca4;
+  margin-top:4px;
+}
+
+.song-list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  margin-bottom:19px;
+}
+
+.song{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  border-radius:17px;
+  background:#f5faff;
+  border:1px solid #e0eef9;
+  cursor:pointer;
+}
+
+.song.active{
+  background:#e3f2ff;
+  border-color:#7db6df;
+}
+
+.song-cover{
+  width:42px;
+  height:42px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.song-num{
+  width:27px;
+  height:27px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#cfe7fb;
+  color:#27618b;
+  font-size:11px;
+  font-weight:700;
+}
+
+.song-name{
+  font-size:13px;
+  font-weight:700;
+  color:#2d526d;
+}
+
+.song-artist{
+  font-size:10px;
+  color:#8aa0b1;
+  margin-top:2px;
+}
+
+.play-icon{
+  margin-left:auto;
+  color:#397ead;
+}
+
+.start-btn{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:17px;
+  background:linear-gradient(135deg,#397fb4,#69a9d7);
+  color:white;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* =========================
+   MINI BOOK
+   TANPA COVER DEPAN
+========================= */
+
+#bookScreen{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at center,#fff 0,#edf7ff 48%,#c5def2 100%);
+  padding:20px 10px;
+}
+
+.book-wrap{
+  width:min(900px,96vw);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.book{
+  position:relative;
+  width:min(820px,94vw);
+  height:min(540px,70vh);
+  min-height:350px;
+  filter:drop-shadow(0 25px 28px rgba(34,77,112,.22));
+}
+
+.book-base{
+  position:absolute;
+  inset:0;
+  border-radius:12px 22px 22px 12px;
+  background:linear-gradient(90deg,#b9d5ec,#e9f6ff 48%,#b7d3ea);
+  box-shadow:inset 0 0 30px rgba(28,75,111,.18);
+}
+
+.spread{
+  position:absolute;
+  inset:3%;
+  display:flex;
+  overflow:hidden;
+  border-radius:6px 15px 15px 6px;
+  background:white;
+}
+
+.sheet{
+  position:relative;
+  width:50%;
+  height:100%;
+  overflow:hidden;
+  background:linear-gradient(to right,#f5fbff,#fff);
+}
+
+.sheet.right{
+  background:linear-gradient(to left,#f5fbff,#fff);
+}
+
+.sheet+.sheet{
+  border-left:1px solid #d7e8f5;
+}
+
+.sheet:after{
+  content:"";
+  position:absolute;
+  inset:13px;
+  border:1px dashed #c4dced;
+  border-radius:8px;
+  pointer-events:none;
+}
+
+.page-content{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+}
+
+/* FOTO 9:16 */
+.photo{
+  width:min(42%,190px);
+  aspect-ratio:9 / 16;
+  height:auto;
+  object-fit:cover;
+  padding:7px;
+  background:white;
+  border:1px solid #d6e7f3;
+  box-shadow:0 10px 22px rgba(39,83,115,.17);
+  transform:rotate(var(--r));
+  border-radius:4px;
+}
+
+.page-title{
+  font-family:'Baloo 2',cursive;
+  font-size:clamp(18px,2.8vw,29px);
+  color:#275b82;
+  margin-top:15px;
+}
+
+.page-text{
+  max-width:260px;
+  margin-top:5px;
+  color:#71899b;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.page-no{
+  position:absolute;
+  bottom:14px;
+  font-size:10px;
+  color:#9aafbe;
+  z-index:3;
+}
+
+.left-no{
+  left:20px;
+}
+
+.right-no{
+  right:20px;
+}
+
+/* HALAMAN FLIP */
+.flip{
+  position:absolute;
+  top:3%;
+  right:3%;
+  width:47%;
+  height:94%;
+  z-index:15;
+  transform-origin:left center;
+  transform-style:preserve-3d;
+  transition:transform 1s cubic-bezier(.65,.05,.25,1);
+  display:none;
+}
+
+.flip.flipped{
+  transform:rotateY(-180deg);
+}
+
+.flip-face{
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  background:linear-gradient(to left,#fff,#eef8ff);
+  overflow:hidden;
+}
+
+.flip-face.back{
+  transform:rotateY(180deg);
+  background:linear-gradient(to right,#eef8ff,#fff);
+}
+
+.tap{
+  position:absolute;
+  top:3%;
+  bottom:3%;
+  width:45%;
+  z-index:30;
+  cursor:pointer;
+}
+
+.tap.left{
+  left:3%;
+}
+
+.tap.right{
+  right:3%;
+}
+
+.indicator{
+  margin-top:20px;
+  color:#5f8099;
+  font-size:11px;
+  letter-spacing:1px;
+}
+
+/* =========================
+   UCAPAN
+========================= */
+
+#messageScreen{
+  position:fixed;
+  inset:0;
+  z-index:30;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  background:
+    radial-gradient(circle at 50% 15%,#fff 0,#eaf6ff 42%,#bfdcf4 100%);
+  overflow:hidden;
+}
+
+.message-wrapper{
+  width:min(94vw,720px);
+}
+
+.message-carousel{
+  width:100%;
+  overflow:hidden;
+  border-radius:30px;
+}
+
+.message-track{
+  display:flex;
+  width:300%;
+  transition:transform .6s cubic-bezier(.65,.05,.25,1);
+}
+
+.message-slide{
+  width:33.333333%;
+  flex:0 0 33.333333%;
+  min-height:500px;
+  padding:25px 28px;
+  border-radius:30px;
+  background:rgba(255,255,255,.94);
+  border:1px solid white;
+  box-shadow:0 25px 70px rgba(39,89,129,.2);
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+.message-slide h1{
+  font-family:'Baloo 2',cursive;
+  font-size:clamp(34px,6vw,58px);
+  line-height:.95;
+  color:#245a82;
+}
+
+.message-slide h2{
+  font-family:'Baloo 2',cursive;
+  color:#2b648e;
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.message-slide .name{
+  font-size:13px;
+  color:#7c96a9;
+  margin-top:8px;
+}
+
+.message-divider{
+  width:65px;
+  height:3px;
+  border-radius:10px;
+  background:#7cb1d9;
+  margin:14px auto;
+}
+
+.message-slide p{
+  max-width:570px;
+  color:#607b90;
+  font-size:13px;
+  line-height:1.75;
+  text-align:center;
+}
+
+.signature{
+  font-family:'Baloo 2',cursive;
+  color:#326b94;
+  font-size:21px;
+  margin-top:10px;
+}
+
+.slide-number{
+  margin-top:10px;
+  font-size:9px;
+  letter-spacing:3px;
+  color:#9ab1c1;
+}
+
+/* =========================
+   CAKE
+========================= */
+
+.birthday-cake{
+  position:relative;
+  width:120px;
+  height:105px;
+  flex:0 0 105px;
+  margin-bottom:3px;
+}
+
+.cake-plate{
+  position:absolute;
+  bottom:3px;
+  left:5px;
+  width:110px;
+  height:13px;
+  border-radius:50%;
+  background:#b8d9ef;
+}
+
+.cake-body{
+  position:absolute;
+  bottom:12px;
+  left:17px;
+  width:86px;
+  height:55px;
+  border-radius:10px 10px 18px 18px;
+  background:linear-gradient(to bottom,#fff 0 25%,#8ec4e8 25% 100%);
+  border:3px solid #d6ecfa;
+}
+
+.cake-cream{
+  position:absolute;
+  left:17px;
+  bottom:57px;
+  width:86px;
+  height:18px;
+  background:#fff;
+  border-radius:50%;
+  box-shadow:0 3px 0 #d6edf9;
+  z-index:2;
+}
+
+.cake-cream:before,
+.cake-cream:after{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:15px;
+  background:#fff;
+  border-radius:50%;
+  bottom:-7px;
+}
+
+.cake-cream:before{
+  left:14px;
+}
+
+.cake-cream:after{
+  right:14px;
+}
+
+.candle{
+  position:absolute;
+  bottom:74px;
+  width:9px;
+  height:27px;
+  border-radius:4px;
+  background:repeating-linear-gradient(135deg,#fff 0 5px,#78b5dc 5px 9px);
+  z-index:4;
+}
+
+.candle.one{
+  left:39px;
+}
+
+.candle.two{
+  left:56px;
+  height:31px;
+}
+
+.candle.three{
+  left:73px;
+}
+
+.flame{
+  position:absolute;
+  top:-14px;
+  left:50%;
+  width:10px;
+  height:15px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:#ffd76a;
+  box-shadow:0 0 12px rgba(255,201,76,.75);
+  animation:flame .8s ease-in-out infinite alternate;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.slide-dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px;
+}
+
+.slide-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#c8dfef;
+  cursor:pointer;
+}
+
+.slide-dot.active{
+  width:22px;
+  border-radius:10px;
+  background:#4e91c1;
+}
+
+.message-nav{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:9px;
+}
+
+.message-nav button{
+  width:40px;
+  height:40px;
+  border:1px solid #c6deef;
+  border-radius:50%;
+  background:white;
+  color:#397ead;
+  font-size:17px;
+  cursor:pointer;
+}
+
+.back-btn{
+  margin-top:10px;
+  padding:9px 17px;
+  border:1px solid #b9d7ec;
+  border-radius:14px;
+  background:#eef8ff;
+  color:#31678d;
+  cursor:pointer;
+  font-weight:700;
+}
+
+/* =========================
+   MUSIC
+========================= */
+
+.music-mini{
+  position:fixed;
+  right:16px;
+  bottom:15px;
+  z-index:200;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:7px 13px 7px 7px;
+  border-radius:30px;
+  background:rgba(255,255,255,.88);
+  border:1px solid white;
+  box-shadow:0 8px 25px rgba(39,87,124,.14);
+}
+
+.music-mini img{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.music-mini .mi{
+  font-size:10px;
+  font-weight:700;
+  color:#2d5d7e;
+}
+
+.music-mini button{
+  border:0;
+  background:none;
+  color:#397ead;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  75%{transform:translateX(6px)}
+}
+
+@keyframes flame{
+  from{
+    transform:translateX(-50%) scale(.9) rotate(-3deg);
+  }
+  to{
+    transform:translateX(-50%) scale(1.1) rotate(3deg);
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:650px){
+
+  .loading-photo{
+    width:125px;
+    height:125px;
+  }
+
+  .playlist-card{
+    padding:20px;
+  }
+
+  .pl-title{
+    font-size:24px;
+  }
+
+  .book{
+    width:96vw;
+    height:62vw;
+    min-height:300px;
+    max-height:420px;
+  }
+
+  .page-content{
+    padding:12px;
+  }
+
+  .photo{
+    width:45%;
+    max-width:130px;
+    padding:4px;
+  }
+
+  .page-title{
+    font-size:15px;
+    margin-top:7px;
+  }
+
+  .page-text{
+    max-width:125px;
+    font-size:7px;
+    line-height:1.45;
+  }
+
+  .sheet:after{
+    inset:7px;
+  }
+
+  .indicator{
+    font-size:8px;
+  }
+
+  .message-slide{
+    min-height:500px;
+    padding:18px 16px;
+  }
+
+  .message-slide h1{
+    font-size:38px;
+  }
+
+  .message-slide h2{
+    font-size:24px;
+  }
+
+  .message-slide p{
+    font-size:10.5px;
+    line-height:1.55;
+    max-height:270px;
+    overflow-y:auto;
+    padding-right:3px;
+  }
+
+  .birthday-cake{
+    transform:scale(.78);
+    transform-origin:center;
+    margin-bottom:-10px;
+  }
+
+  .music-mini{
+    right:9px;
+    bottom:9px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     PIN
+========================= -->
+
+<section id="pinScreen">
+
+  <div class="pin-card">
+
+    <div class="pin-icon">🎈</div>
+
+    <div class="pin-title">For My Boy</div>
+
+    <div class="pin-subtitle">
+      Masukkan kode rahasia untuk membuka hadiah kecil ini ✨
+    </div>
+
+    <div class="pin-dots">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div class="numpad">
+
+      <button class="num-btn" onclick="pressKey('1')">1</button>
+      <button class="num-btn" onclick="pressKey('2')">2</button>
+      <button class="num-btn" onclick="pressKey('3')">3</button>
+
+      <button class="num-btn" onclick="pressKey('4')">4</button>
+      <button class="num-btn" onclick="pressKey('5')">5</button>
+      <button class="num-btn" onclick="pressKey('6')">6</button>
+
+      <button class="num-btn" onclick="pressKey('7')">7</button>
+      <button class="num-btn" onclick="pressKey('8')">8</button>
+      <button class="num-btn" onclick="pressKey('9')">9</button>
+
+      <button class="num-btn" onclick="pressKey('clear')">⌫</button>
+      <button class="num-btn" onclick="pressKey('0')">0</button>
+      <button class="num-btn" onclick="pressKey('enter')">↵</button>
+
+    </div>
+
+    <div class="pin-hint">
+      Hint: tahun lahir kamu ✦
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     LOADING
+========================= -->
+
+<section id="loadingScreen" class="hidden">
+
+  <div class="loading-box">
+
+    <img
+      src="logo.jpeg"
+      class="loading-photo"
+      alt="Loading"
+      onerror="this.onerror=null;this.src='logo.jpeg';"
+    >
+
+    <h2>Preparing something for you...</h2>
+
+    <p id="loadingText">
+      Membuka kenangan kecil...
+    </p>
+
+    <div class="loading-bar">
+      <div id="loadingProgress"></div>
+    </div>
+
+    <div class="loading-percent" id="loadingPercent">
+      0%
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     PLAYLIST
+========================= -->
+
+<section id="playlistScreen" class="hidden">
+
+  <div class="playlist-card">
+
+    <div class="pl-top">
+
+      <img
+        class="album"
+        id="playlistCover"
+        src="cover1.jpeg"
+        alt="Cover lagu"
+      >
+
+      <div>
+
+        <div class="pl-kicker">
+          YOUR BIRTHDAY PLAYLIST
+        </div>
+
+        <div class="pl-title">
+          A little music for you 🎧
+        </div>
+
+        <div class="pl-sub">
+          Pilih lagunya dulu, lalu buka scrapbook.
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="song-list">
+
+      <div
+        class="song active"
+        data-song="musik1.mp3"
+        data-cover="cover1.jpeg"
+        onclick="selectSong(this)"
+      >
+
+        <img
+          class="song-cover"
+          src="cover1.jpeg"
+          alt="Honey Bee"
+        >
+
+        <div class="song-num">01</div>
+
+        <div>
+          <div class="song-name">Honey Bee</div>
+          <div class="song-artist">Olivia Rodrigo</div>
+        </div>
+
+        <div class="play-icon">▶</div>
+
+      </div>
+
+      <div
+        class="song"
+        data-song="musik2.mp3"
+        data-cover="cover2.jpeg"
+        onclick="selectSong(this)"
+      >
+
+        <img
+          class="song-cover"
+          src="cover2.jpeg"
+          alt="Sampai Jadi Debu"
+        >
+
+        <div class="song-num">02</div>
+
+        <div>
+          <div class="song-name">Sampai Jadi Debu</div>
+          <div class="song-artist">Banda Neira</div>
+        </div>
+
+        <div class="play-icon">▶</div>
+
+      </div>
+
+      <div
+        class="song"
+        data-song="musik3.mp3"
+        data-cover="cover3.jpeg"
+        onclick="selectSong(this)"
+      >
+
+        <img
+          class="song-cover"
+          src="cover3.jpeg"
+          alt="Penuh"
+        >
+
+        <div class="song-num">03</div>
+
+        <div>
+          <div class="song-name">Penuh</div>
+          <div class="song-artist">Nadhif Basamalah</div>
+        </div>
+
+        <div class="play-icon">▶</div>
+
+      </div>
+
+    </div>
+
+    <button class="start-btn" onclick="openBook()">
+      ▶ Open mini book
+    </button>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     MINI BOOK
+========================= -->
+
+<section id="bookScreen" class="hidden">
+
+  <div class="book-wrap">
+
+    <div class="book">
+
+      <div class="book-base"></div>
+
+      <div class="spread">
+
+        <!-- PAGE 1 -->
+
+        <div class="sheet left">
+
+          <div class="page-content">
+
+            <img
+              class="photo"
+              src="foto1.jpeg"
+              style="--r:-3deg"
+              alt="Foto 1"
+            >
+
+            <div class="page-title">
+              A stranger in My Chat
+            </div>
+
+            <div class="page-text">
+              chat pertama kali buaya darat ke aku lucu bngt awal kenal 😆😍
+            </div>
+
+          </div>
+
+          <span class="page-no left-no">01</span>
+
+        </div>
+
+        <!-- PAGE 2 -->
+
+        <div class="sheet right">
+
+          <div class="page-content">
+
+            <img
+              class="photo"
+              src="foto2.jpeg"
+              style="--r:3deg"
+              alt="Foto 2"
+            >
+
+            <div class="page-title">
+              The Flower You Sent Me 🌷
+            </div>
+
+            <div class="page-text">
+              bunga ke sekian dri kamu love u 💗
+            </div>
+
+          </div>
+
+          <span class="page-no right-no">02</span>
+
+        </div>
+
+      </div>
+
+      <!-- FLIP 1 -->
+
+      <div class="flip" id="flip1">
+
+        <div class="flip-face">
+
+          <div class="page-content">
+
+            <img
+              class="photo"
+              src="foto2.jpeg"
+              style="--r:3deg"
+              alt="Foto 2"
+            >
+
+            <div class="page-title">
+              The Flower You Sent Me 🌷
+            </div>
+
+            <div class="page-text">
+              bunga ke sekian dri kamu love u 💗
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="flip-face back">
+
+          <div class="page-content">
+
+            <img
+              class="photo"
+              src="foto3.jpeg"
+              style="--r:-2deg"
+              alt="Foto 3"
+            >
+
+            <div class="page-title">
+              Our First Call
+            </div>
+
+            <div class="page-text">
+              hehe gemesh ini pertama kali kita vc an.
+              kami masih di homestay yg penuh sama barang-barang
+              dan background kardus huhu 😻🫰🏻
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- FLIP 2 -->
+
+      <div class="flip" id="flip2">
+
+        <div class="flip-face">
+
+          <div class="page-content">
+
+            <img
+              class="photo"
+              src="foto3.jpeg"
+              style="--r:-2deg"
+              alt="Foto 3"
+            >
+
+            <div class="page-title">
+              Our First Call
+            </div>
+
+            <div class="page-text">
+              hehe gemesh ini pertama kali kita vc an.
+              masih di homestay dengan background kardus 😻🫰🏻
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="flip-face back">
+
+          <div class="page-content">
+
+            <img
+              class="photo"
+              src="foto4.jpeg"
+              style="--r:2deg"
+              alt="Foto 4"
+            >
+
+            <div class="page-title">
+              My Favorite Person
+            </div>
+
+            <div class="page-text">
+              dan ini adalah orang terfavorit aku sekarang
+              dan untuk kedepannya 💗
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        class="tap left"
+        onclick="prevPage()"
+      ></div>
+
+      <div
+        class="tap right"
+        onclick="nextPage()"
+      ></div>
+
+    </div>
+
+    <div class="indicator" id="indicator">
+      TAP KANAN UNTUK MEMBUKA • SWIPE
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     UCAPAN
+========================= -->
+
+<section id="messageScreen">
+
+  <div class="message-wrapper">
+
+    <div class="message-carousel">
+
+      <div class="message-track" id="messageTrack">
+
+        <!-- SLIDE 1 -->
+
+        <div class="message-slide">
+
+          <div class="birthday-cake">
+
+            <div class="candle one">
+              <div class="flame"></div>
+            </div>
+
+            <div class="candle two">
+              <div class="flame"></div>
+            </div>
+
+            <div class="candle three">
+              <div class="flame"></div>
+            </div>
+
+            <div class="cake-cream"></div>
+            <div class="cake-body"></div>
+            <div class="cake-plate"></div>
+
+          </div>
+
+          <h1>
+            Happy Birthday! 🎂
+          </h1>
+
+          <div class="name">
+            for someone special ♡
+          </div>
+
+          <div class="message-divider"></div>
+
+          <p>
+            Hii gantengku 👋🏻 selamat tiba di usia yang baru.
+            Semoga hidup selalu menitipkan hal-hal baik di sepanjang jalanmu.
+            Semoga setiap langkah yang kau tempuh membawamu lebih dekat
+            dengan apa yang selama ini didoakan.
+
+            <br><br>
+
+            Teruslah bertumbuh, meski perjalananmu kelak membawa ke
+            tempat-tempat yang belum dikenal. Semoga setiap proses yang
+            dilalui perlahan menjadikanmu orang yang kelak dibanggakan,
+            tanpa harus tergesa-gesa dan tanpa harus menjadi siapa-siapa.
+
+            <br><br>
+
+            Semoga Tuhan senantiasa menjagamu, melapangkan hatimu,
+            dan menjauhkanmu dari segala hal yang membuatmu kehilangan
+            keduanya. Semoga dimanapun langkahmu berlabuh,
+            kau selalu menemukan alasan untuk baik-baik saja.
+          </p>
+
+          <div class="slide-number">
+            01 / 03
+          </div>
+
+        </div>
+
+        <!-- SLIDE 2 -->
+
+        <div class="message-slide">
+
+          <div class="birthday-cake">
+
+            <div class="candle one">
+              <div class="flame"></div>
+            </div>
+
+            <div class="candle two">
+              <div class="flame"></div>
+            </div>
+
+            <div class="candle three">
+              <div class="flame"></div>
+            </div>
+
+            <div class="cake-cream"></div>
+            <div class="cake-body"></div>
+            <div class="cake-plate"></div>
+
+          </div>
+
+          <h2>
+            A little wish for you ♡
+          </h2>
+
+          <div class="message-divider"></div>
+
+          <p>
+            Happy birthday yaa sayangku, selamat untuk 26 tahun
+            yang berhasil mas lewatin sejauh ini.
+
+            <br><br>
+
+            Makasii yaa karena udah bertahan sampai detik ini.
+            Aku tau hidup mas nggak selalu mudah. Ada banyak hal
+            yang diam-diam mas simpan sendiri, banyak capek yang
+            nggak pernah mas ceritain ke siapa-siapa.
+
+            <br><br>
+
+            Tapi mas masih ada di sini, masih jalan, masih berusaha
+            jadi kuat walaupun kadang dunia terlalu berat buat
+            dipeluk sendirian. Dan adek bangga banget sama mas.
+            Proud of u more than u know.
+
+            <br><br>
+
+            26 looks good on u.
+            Semoga di umur yang sekarang langkah mas lebih ringan,
+            hati mas lebih tenang, dan semua hal baik pelan-pelan
+            datang tanpa harus mas kejar terlalu keras.
+
+            <br><br>
+
+            Semoga apa yang mas semogakan selama ini satu-satu
+            nemuin jalannya buat sampai ke mas.
+
+            <br><br>
+
+            Jangan lupa jaga diri. Jangan terlalu sering nyalahin
+            diri sendiri kalau semesta belum berjalan sesuai mau mas.
+
+            <br><br>
+
+            Terima kasih udah lahir di dunia ini dan jadi seseorang
+            yang bikin adek ngerasa hidup bisa sehangat ini.
+
+            <br><br>
+
+            Di hari ulang tahun mas, ini jadi perayaan pertama yang
+            adek rayain buat mas. Untuk kedepan nggak ada kata
+            tanpa dirayakan. Mas juga berhak merasa dirayakan.
+
+            <br><br>
+
+            Terima kasih mas sudah bertahan sejauh ini.
+            Terima kasih sudah selalu mengusahakan kita untuk selalu
+            bersama sampai nanti waktunya kita serumah 💗
+          </p>
+
+          <div class="slide-number">
+            02 / 03
+          </div>
+
+        </div>
+
+        <!-- SLIDE 3 -->
+
+        <div class="message-slide">
+
+          <div class="birthday-cake">
+
+            <div class="candle one">
+              <div class="flame"></div>
+            </div>
+
+            <div class="candle two">
+              <div class="flame"></div>
+            </div>
+
+            <div class="candle three">
+              <div class="flame"></div>
+            </div>
+
+            <div class="cake-cream"></div>
+            <div class="cake-body"></div>
+            <div class="cake-plate"></div>
+
+          </div>
+
+          <h2>
+            For us, and for you 💙
+          </h2>
+
+          <div class="message-divider"></div>
+
+          <p>
+            Sejak awal kita kenal sampai detik ini rasa sayang mas
+            ke adek nggak pernah berubah 🥹 selalu bertambah.
+            Dan kesabaran mas yang selalu besar buat ngadepin
+            sifat-sifat adek yang kadang menjengkelkan 🥲
+
+            <br><br>
+
+            Selama sama mas, adek nggak pernah dengar dan rasain
+            rasanya dibentak, dikasarin, bahkan nada tinggi pun
+            adek nggak pernah dengar 🥹
+
+            <br><br>
+
+            Adek selalu ngerasain tenang dan nyaman 😻
+
+            <br><br>
+
+            Mungkin adek orangnya gengsian banget, tapi mas harus tau
+            kalau adek sayang banget ke mas. Bukan perihal uang,
+            fisik, atau apapun, tapi sifat dan sikap mas yang selalu
+            bikin adek ngerasa disayang 🥹
+
+            <br><br>
+
+            Adek berharap bertambahnya umur mas, semoga bertambah juga
+            rasa sayang mas ke adek sampai nanti impian kita serumah
+            bahkan sampai takdir di ujung sana 🫂
+
+            <br><br>
+
+            Betapa beruntung adek punya mas sekarang yang selalu sayang,
+            jaga, lindungin, bahkan nerima semua kekurangan adek 🥹
+
+            <br><br>
+
+            Makasih ya sayang setiap usaha dan rezeki mas yang mas kasih
+            ke adek 🥹 Adek selalu berdoa untuk kelancaran rezeki mas
+            berlipat ganda dan selalu dalam keadaan sehat 💗
+
+            <br><br>
+
+            Semangat di negara orang sayang, sehat selalu biar nanti
+            kita ketemu terus tanpa harus LDR lagi 🥲🫂
+
+            <br><br>
+
+            Adek kangen selalu 💗
+
+            <br><br>
+
+            Adek cuma minta:
+            <strong>SELALU SAYANG SAMA ADEK TERUS YA SAYANGKU 🫂🤍</strong>
+          </p>
+
+          <div class="signature">
+            Have a beautiful year ahead ✦
+          </div>
+
+          <button
+            class="back-btn"
+            onclick="backToPlaylist()"
+          >
+            ↺ Putar Lagi
+          </button>
+
+          <div class="slide-number">
+            03 / 03
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="slide-dots">
+
+      <span
+        class="slide-dot active"
+        onclick="goMessageSlide(0)"
+      ></span>
+
+      <span
+        class="slide-dot"
+        onclick="goMessageSlide(1)"
+      ></span>
+
+      <span
+        class="slide-dot"
+        onclick="goMessageSlide(2)"
+      ></span>
+
+    </div>
+
+    <div class="message-nav">
+
+      <button onclick="prevMessageSlide()">
+        ←
+      </button>
+
+      <button onclick="nextMessageSlide()">
+        →
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     MINI PLAYER
+========================= -->
+
+<div
+  class="music-mini hidden"
+  id="musicMini"
+>
+  <span class="mi">
+    music
+  </span>
+
+  <button
+    onclick="toggleMusic(event)"
+    id="musicBtn"
+  >
+    ❚❚
+  </button>
+
+</div>
+
+<audio
+  id="music"
+  loop
+  preload="auto"
+></audio>
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+const CORRECT_PIN = '1009';
+
+let entered = '';
+
+let bookState = 0;
+
+let flipping = false;
+
+let currentSong = 'musik1.mp3';
+
+let currentCover = 'cover1.jpg';
+
+let messageSlide = 0;
+
+/* =========================
+   ELEMENT
+========================= */
+
+const pinScreen =
+  document.getElementById('pinScreen');
+
+const loadingScreen =
+  document.getElementById('loadingScreen');
+
+const playlistScreen =
+  document.getElementById('playlistScreen');
+
+const bookScreen =
+  document.getElementById('bookScreen');
+
+const messageScreen =
+  document.getElementById('messageScreen');
+
+const dots =
+  document.querySelectorAll('.dot');
+
+const cover =
+  document.getElementById('cover');
+
+const flip1 =
+  document.getElementById('flip1');
+
+const flip2 =
+  document.getElementById('flip2');
+
+const indicator =
+  document.getElementById('indicator');
+
+const music =
+  document.getElementById('music');
+
+const musicMini =
+  document.getElementById('musicMini');
+
+const musicBtn =
+  document.getElementById('musicBtn');
+
+const playlistCover =
+  document.getElementById('playlistCover');
+
+const miniCover =
+  document.getElementById('miniCover');
+
+const loadingProgress =
+  document.getElementById('loadingProgress');
+
+const loadingPercent =
+  document.getElementById('loadingPercent');
+
+const loadingText =
+  document.getElementById('loadingText');
+
+const messageTrack =
+  document.getElementById('messageTrack');
+
+const messageDots =
+  document.querySelectorAll('.slide-dot');
+
+/* =========================
+   PIN
+========================= */
+
+function pressKey(key){
+
+  if(key === 'clear'){
+
+    entered = entered.slice(0,-1);
+
+  }else if(key === 'enter'){
+
+    verifyPin();
+    return;
+
+  }else if(
+    /^[0-9]$/.test(key) &&
+    entered.length < 4
+  ){
+
+    entered += key;
+
+  }
+
+  updateDots();
+
+  if(
+    entered.length === 4 &&
+    key !== 'clear'
+  ){
+
+    setTimeout(verifyPin,130);
+
+  }
+
+}
+
+function updateDots(){
+
+  dots.forEach((dot,index)=>{
+
+    dot.classList.toggle(
+      'filled',
+      index < entered.length
+    );
+
+    dot.classList.remove('error');
+
+  });
+
+}
+
+function verifyPin(){
+
+  if(entered === CORRECT_PIN){
+
+    pinScreen.classList.add('hidden');
+
+    showLoading();
+
+  }else{
+
+    dots.forEach(dot=>{
+      dot.classList.add('error');
+    });
+
+    setTimeout(()=>{
+
+      entered = '';
+
+      updateDots();
+
+    },400);
+
+  }
+
+}
+
+window.addEventListener('keydown',e=>{
+
+  if(pinScreen.classList.contains('hidden')){
+    return;
+  }
+
+  if(/^[0-9]$/.test(e.key)){
+
+    pressKey(e.key);
+
+  }else if(e.key === 'Backspace'){
+
+    pressKey('clear');
+
+  }else if(e.key === 'Enter'){
+
+    pressKey('enter');
+
+  }
+
+});
+
+/* =========================
+   MUSIC
+========================= */
+
+function loadSong(src){
+
+  currentSong = src || 'musik1.mp3';
+
+  music.pause();
+
+  music.src = currentSong;
+
+  music.currentTime = 0;
+
+  music.load();
+
+}
+
+function selectSong(el){
+
+  document
+    .querySelectorAll('.song')
+    .forEach(song=>{
+      song.classList.remove('active');
+    });
+
+  el.classList.add('active');
+
+  currentSong =
+    el.dataset.song || 'musik1.mp3';
+
+  currentCover =
+    el.dataset.cover || 'cover1.jpg';
+
+  playlistCover.src = currentCover;
+  miniCover.src = currentCover;
+
+  loadSong(currentSong);
+
+  playMusic();
+
+}
+
+function playMusic(){
+
+  music.volume = 0.5;
+
+  music.play()
+    .then(()=>{
+
+      musicMini.classList.remove('hidden');
+
+      musicBtn.textContent = '❚❚';
+
+    })
+    .catch(()=>{
+
+      musicBtn.textContent = '▶';
+
+    });
+
+}
+
+function toggleMusic(e){
+
+  if(e){
+    e.stopPropagation();
+  }
+
+  if(music.paused){
+
+    playMusic();
+
+  }else{
+
+    music.pause();
+
+    musicBtn.textContent = '▶';
+
+  }
+
+}
+
+/* =========================
+   LOADING
+========================= */
+
+function showLoading(){
+
+  loadingScreen.classList.remove('hidden');
+
+  let progress = 0;
+
+  const timer = setInterval(()=>{
+
+    progress += 2;
+
+    loadingProgress.style.width =
+      progress + '%';
+
+    loadingPercent.textContent =
+      progress + '%';
+
+    if(progress < 25){
+
+      loadingText.textContent =
+        'Membuka kenangan kecil...';
+
+    }else if(progress < 45){
+
+      loadingText.textContent =
+        'Menyiapkan playlist...';
+
+    }else if(progress < 65){
+
+      loadingText.textContent =
+        'Mengumpulkan momen...';
+
+    }else if(progress < 85){
+
+      loadingText.textContent =
+        'Menyiapkan scrapbook...';
+
+    }else{
+
+      loadingText.textContent =
+        'Almost there...';
+
+    }
+
+    if(progress >= 100){
+
+      clearInterval(timer);
+
+      setTimeout(()=>{
+
+        loadingScreen.classList.add('hidden');
+
+        playlistScreen.classList.remove('hidden');
+
+        loadSong(currentSong);
+
+        playMusic();
+
+      },500);
+
+    }
+
+  },45);
+
+}
+
+/* =========================
+   OPEN BOOK
+========================= */
+
+function openBook(){
+
+  playlistScreen.classList.add('hidden');
+
+  bookScreen.classList.remove('hidden');
+
+  bookState = 0;
+
+  flipping = false;
+
+  flip1.classList.remove('flipped');
+  flip2.classList.remove('flipped');
+
+  flip1.style.display = 'none';
+  flip2.style.display = 'none';
+
+  indicator.textContent =
+    'TAP KANAN UNTUK MEMBUKA • SWIPE';
+
+  if(music.paused){
+
+    loadSong(currentSong);
+
+    playMusic();
+
+  }
+
+}
+
+/* =========================
+   NEXT PAGE
+========================= */
+
+function nextPage(){
+
+  if(flipping){
+    return;
+  }
+
+  if(bookState === 0){
+
+    bookState = 1;
+
+    indicator.textContent =
+      'TAP KANAN UNTUK MELANJUTKAN ✦';
+
+    return;
+
+  }
+
+  if(bookState === 1){
+
+    flipping = true;
+
+    flip1.style.display = 'block';
+
+    requestAnimationFrame(()=>{
+
+      flip1.classList.add('flipped');
+
+    });
+
+    bookState = 2;
+
+    indicator.textContent =
+      'TAP KANAN UNTUK MELANJUTKAN ✦';
+
+    setTimeout(()=>{
+      flipping = false;
+    },1050);
+
+    return;
+
+  }
+
+  if(bookState === 2){
+
+    flipping = true;
+
+    flip2.style.display = 'block';
+
+    requestAnimationFrame(()=>{
+
+      flip2.classList.add('flipped');
+
+    });
+
+    bookState = 3;
+
+    indicator.textContent =
+      'TAP KANAN UNTUK UCAPAN ✦';
+
+    setTimeout(()=>{
+      flipping = false;
+    },1050);
+
+    return;
+
+  }
+
+  finishBook();
+
+}
+
+/* =========================
+   PREVIOUS PAGE
+========================= */
+
+function prevPage(){
+
+  if(flipping){
+    return;
+  }
+
+  if(bookState === 0){
+    return;
+  }
+
+  if(bookState === 1){
+
+    bookState = 0;
+
+    indicator.textContent =
+      'TAP KANAN UNTUK MEMBUKA • SWIPE';
+
+    return;
+
+  }
+
+  if(bookState === 2){
+
+    flipping = true;
+
+    flip1.classList.remove('flipped');
+
+    bookState = 1;
+
+    indicator.textContent =
+      'TAP KANAN UNTUK MELANJUTKAN ✦';
+
+    setTimeout(()=>{
+
+      flip1.style.display = 'none';
+
+      flipping = false;
+
+    },1050);
+
+    return;
+
+  }
+
+  if(bookState === 3){
+
+    flipping = true;
+
+    flip2.classList.remove('flipped');
+
+    bookState = 2;
+
+    indicator.textContent =
+      'TAP KANAN UNTUK MELANJUTKAN ✦';
+
+    setTimeout(()=>{
+
+      flip2.style.display = 'none';
+
+      flipping = false;
+
+    },1050);
+
+  }
+
+}
+
+/* =========================
+   FINISH BOOK
+========================= */
+
+function finishBook(){
+
+  bookScreen.classList.add('hidden');
+
+  messageScreen.style.display = 'flex';
+
+  goMessageSlide(0);
+
+  musicMini.classList.remove('hidden');
+
+  if(music.paused){
+    playMusic();
+  }
+
+}
+
+/* =========================
+   BACK TO PLAYLIST
+========================= */
+
+function backToPlaylist(){
+
+  messageScreen.style.display = 'none';
+
+  playlistScreen.classList.remove('hidden');
+
+  goMessageSlide(0);
+
+  if(music.paused){
+
+    loadSong(currentSong);
+
+    playMusic();
+
+  }
+
+}
+
+/* =========================
+   BOOK SWIPE
+========================= */
+
+let bookStartX = 0;
+let bookStartY = 0;
+
+bookScreen.addEventListener(
+  'touchstart',
+  e=>{
+
+    bookStartX =
+      e.touches[0].clientX;
+
+    bookStartY =
+      e.touches[0].clientY;
+
+  },
+  {passive:true}
+);
+
+bookScreen.addEventListener(
+  'touchend',
+  e=>{
+
+    const dx =
+      e.changedTouches[0].clientX -
+      bookStartX;
+
+    const dy =
+      e.changedTouches[0].clientY -
+      bookStartY;
+
+    if(
+      Math.abs(dx) > 50 &&
+      Math.abs(dx) > Math.abs(dy)
+    ){
+
+      if(dx < 0){
+        nextPage();
+      }else{
+        prevPage();
+      }
+
+    }
+
+  },
+  {passive:true}
+);
+
+/* =========================
+   MESSAGE SLIDES
+========================= */
+
+function goMessageSlide(index){
+
+  index = Math.max(0,Math.min(2,index));
+
+  messageSlide = index;
+
+  messageTrack.style.transform =
+    `translateX(-${index * 33.333333}%)`;
+
+  messageDots.forEach((dot,i)=>{
+
+    dot.classList.toggle(
+      'active',
+      i === index
+    );
+
+  });
+
+}
+
+function nextMessageSlide(){
+
+  if(messageSlide < 2){
+
+    goMessageSlide(
+      messageSlide + 1
+    );
+
+  }
+
+}
+
+function prevMessageSlide(){
+
+  if(messageSlide > 0){
+
+    goMessageSlide(
+      messageSlide - 1
+    );
+
+  }
+
+}
+
+/* =========================
+   MESSAGE SWIPE
+========================= */
+
+let messageStartX = 0;
+let messageStartY = 0;
+
+messageScreen.addEventListener(
+  'touchstart',
+  e=>{
+
+    messageStartX =
+      e.touches[0].clientX;
+
+    messageStartY =
+      e.touches[0].clientY;
+
+  },
+  {passive:true}
+);
+
+messageScreen.addEventListener(
+  'touchend',
+  e=>{
+
+    const dx =
+      e.changedTouches[0].clientX -
+      messageStartX;
+
+    const dy =
+      e.changedTouches[0].clientY -
+      messageStartY;
+
+    if(
+      Math.abs(dx) > 50 &&
+      Math.abs(dx) > Math.abs(dy)
+    ){
+
+      if(dx < 0){
+        nextMessageSlide();
+      }else{
+        prevMessageSlide();
+      }
+
+    }
+
+  },
+  {passive:true}
+);
+
+</script>
+
+</body>
+</html>
