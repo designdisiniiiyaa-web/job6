@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#edf6ff">
 <title>Happy Birthday ♡</title>
 
 <style>
@@ -31,6 +32,7 @@ body{
 button{
   font-family:inherit;
   -webkit-appearance:none;
+  appearance:none;
 }
 
 .hidden{
@@ -59,6 +61,7 @@ button{
   border:1px solid rgba(255,255,255,.9);
   border-radius:30px;
   background:rgba(255,255,255,.7);
+  -webkit-backdrop-filter:blur(18px);
   backdrop-filter:blur(18px);
   box-shadow:0 25px 70px rgba(48,104,155,.2);
 }
@@ -122,6 +125,7 @@ button{
   font-size:19px;
   font-weight:700;
   cursor:pointer;
+  touch-action:manipulation;
 }
 
 .num-btn:active{
@@ -282,6 +286,7 @@ button{
   background:#f5faff;
   border:1px solid #e0eef9;
   cursor:pointer;
+  touch-action:manipulation;
 }
 
 .song.active{
@@ -337,11 +342,11 @@ button{
   font-size:14px;
   font-weight:700;
   cursor:pointer;
+  touch-action:manipulation;
 }
 
 /* =====================================================
    MINI BOOK
-   STABIL UNTUK IPHONE
 ===================================================== */
 
 #bookScreen{
@@ -353,8 +358,14 @@ button{
   justify-content:center;
   background:
     radial-gradient(circle at center,#fff 0,#edf7ff 48%,#c5def2 100%);
-  padding:15px 8px;
-  touch-action:pan-y;
+  padding:
+    max(15px,env(safe-area-inset-top))
+    8px
+    max(15px,env(safe-area-inset-bottom));
+  overflow:hidden;
+  touch-action:none;
+  -webkit-user-select:none;
+  user-select:none;
 }
 
 .book-wrap{
@@ -370,9 +381,8 @@ button{
   height:min(540px,72vh);
   min-height:350px;
   filter:drop-shadow(0 25px 28px rgba(34,77,112,.22));
+  touch-action:none;
 }
-
-/* Buku */
 
 .book-base{
   position:absolute;
@@ -395,8 +405,6 @@ button{
   border-radius:6px 15px 15px 6px;
   background:white;
 }
-
-/* SETIAP HALAMAN */
 
 .book-page{
   position:relative;
@@ -443,6 +451,15 @@ button{
   padding:30px;
 }
 
+.page-content-inner{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
 .photo{
   width:min(42%,190px);
   aspect-ratio:9 / 16;
@@ -458,6 +475,7 @@ button{
 .page-title{
   font-family:'Baloo 2',cursive;
   font-size:clamp(18px,2.8vw,29px);
+  line-height:1.05;
   color:#275b82;
   margin-top:15px;
 }
@@ -486,49 +504,25 @@ button{
   right:20px;
 }
 
-/* PAGE TRANSITION */
-
-.page-content-inner{
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  will-change:opacity,transform;
-}
-
-.page-change-out{
-  animation:pageOut .22s ease forwards;
-}
+/*
+  Animasi dibuat ringan supaya Safari iPhone
+  tidak tersendat.
+*/
 
 .page-change-in{
-  animation:pageIn .28s ease forwards;
-}
-
-@keyframes pageOut{
-  from{
-    opacity:1;
-    transform:translateX(0);
-  }
-  to{
-    opacity:0;
-    transform:translateX(-14px);
-  }
+  animation:pageIn .24s ease both;
 }
 
 @keyframes pageIn{
   from{
-    opacity:0;
-    transform:translateX(14px);
+    opacity:.35;
+    transform:translateX(10px);
   }
   to{
     opacity:1;
     transform:translateX(0);
   }
 }
-
-/* AREA TAP */
 
 .book-tap{
   position:absolute;
@@ -537,6 +531,7 @@ button{
   width:45%;
   z-index:10;
   cursor:pointer;
+  touch-action:none;
 }
 
 .book-tap.left{
@@ -566,7 +561,10 @@ button{
   display:none;
   align-items:center;
   justify-content:center;
-  padding:15px;
+  padding:
+    max(15px,env(safe-area-inset-top))
+    15px
+    max(15px,env(safe-area-inset-bottom));
   background:
     radial-gradient(circle at 50% 15%,#fff 0,#eaf6ff 42%,#bfdcf4 100%);
   overflow:hidden;
@@ -580,12 +578,14 @@ button{
   width:100%;
   overflow:hidden;
   border-radius:30px;
+  touch-action:pan-y;
 }
 
 .message-track{
   display:flex;
   width:300%;
   transition:transform .45s ease;
+  will-change:transform;
 }
 
 .message-slide{
@@ -641,6 +641,7 @@ button{
   line-height:1.75;
   text-align:center;
   overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
 }
 
 .signature{
@@ -782,6 +783,7 @@ button{
   border-radius:50%;
   background:#c8dfef;
   cursor:pointer;
+  touch-action:manipulation;
 }
 
 .slide-dot.active{
@@ -806,6 +808,7 @@ button{
   color:#397ead;
   font-size:17px;
   cursor:pointer;
+  touch-action:manipulation;
 }
 
 .back-btn{
@@ -817,6 +820,7 @@ button{
   color:#31678d;
   cursor:pointer;
   font-weight:700;
+  touch-action:manipulation;
 }
 
 /* =====================================================
@@ -826,7 +830,7 @@ button{
 .music-mini{
   position:fixed;
   right:16px;
-  bottom:15px;
+  bottom:max(15px,env(safe-area-inset-bottom));
   z-index:200;
   display:flex;
   align-items:center;
@@ -850,6 +854,7 @@ button{
   color:#397ead;
   font-size:16px;
   cursor:pointer;
+  touch-action:manipulation;
 }
 
 /* =====================================================
@@ -924,6 +929,7 @@ button{
 
   .indicator{
     font-size:8px;
+    margin-top:14px;
   }
 
   .message-slide{
@@ -946,6 +952,7 @@ button{
     max-height:270px;
     overflow-y:auto;
     padding-right:3px;
+    -webkit-overflow-scrolling:touch;
   }
 
   .birthday-cake{
@@ -956,7 +963,7 @@ button{
 
   .music-mini{
     right:9px;
-    bottom:9px;
+    bottom:max(9px,env(safe-area-inset-bottom));
   }
 }
 </style>
@@ -988,7 +995,6 @@ button{
     </div>
 
     <div class="numpad">
-
       <button class="num-btn" onclick="pressKey('1')">1</button>
       <button class="num-btn" onclick="pressKey('2')">2</button>
       <button class="num-btn" onclick="pressKey('3')">3</button>
@@ -1004,7 +1010,6 @@ button{
       <button class="num-btn" onclick="pressKey('clear')">⌫</button>
       <button class="num-btn" onclick="pressKey('0')">0</button>
       <button class="num-btn" onclick="pressKey('enter')">↵</button>
-
     </div>
 
     <div class="pin-hint">
@@ -1180,8 +1185,6 @@ button{
 
       <div class="spread">
 
-        <!-- HALAMAN KIRI -->
-
         <div class="book-page left-page">
 
           <div class="page-content" id="leftPage">
@@ -1213,8 +1216,6 @@ button{
 
         </div>
 
-        <!-- HALAMAN KANAN -->
-
         <div class="book-page right-page">
 
           <div class="page-content" id="rightPage">
@@ -1224,16 +1225,16 @@ button{
               <img
                 class="photo"
                 id="rightPhoto"
-                src="foto2.jpeg"
+                src="foto3.jpeg"
                 alt="Foto"
               >
 
               <div class="page-title" id="rightTitle">
-                The Flower You Sent Me 🌷
+                Our First Call
               </div>
 
               <div class="page-text" id="rightText">
-                bunga ke sekian dri kamu love u 💗
+                hehe gemesh ini pertama kali kita vc an. kami masih di homestay yg penuh sama barang-barang dan background kardus huhu 😻🫰🏻
               </div>
 
             </div>
@@ -1248,16 +1249,16 @@ button{
 
       </div>
 
-      <!-- AREA KLIK -->
-
       <div
         class="book-tap left"
-        onclick="prevPage()"
+        id="bookTapLeft"
+        aria-label="Halaman sebelumnya"
       ></div>
 
       <div
         class="book-tap right"
-        onclick="nextPage()"
+        id="bookTapRight"
+        aria-label="Halaman berikutnya"
       ></div>
 
     </div>
@@ -1560,7 +1561,6 @@ button{
     <div class="message-nav">
 
       <button onclick="prevMessageSlide()">←</button>
-
       <button onclick="nextMessageSlide()">→</button>
 
     </div>
@@ -1604,6 +1604,17 @@ button{
 
 const CORRECT_PIN = '1009';
 
+/*
+  URUTAN MINI BOOK:
+  1 = foto1
+  2 = foto3
+  3 = foto2
+  4 = foto4
+
+  Jadi FOTO + JUDUL + KATA-KATA
+  selalu ikut pasangannya.
+*/
+
 const BOOK_PAGES = [
 
   {
@@ -1613,15 +1624,15 @@ const BOOK_PAGES = [
   },
 
   {
-    photo:'foto2.jpeg',
-    title:'The Flower You Sent Me 🌷',
-    text:'bunga ke sekian dri kamu love u 💗'
-  },
-
-  {
     photo:'foto3.jpeg',
     title:'Our First Call',
     text:'hehe gemesh ini pertama kali kita vc an. kami masih di homestay yg penuh sama barang-barang dan background kardus huhu 😻🫰🏻'
+  },
+
+  {
+    photo:'foto2.jpeg',
+    title:'The Flower You Sent Me 🌷',
+    text:'bunga ke sekian dri kamu love u 💗'
   },
 
   {
@@ -1633,50 +1644,29 @@ const BOOK_PAGES = [
 ];
 
 let entered = '';
-
 let bookPage = 0;
-
 let currentSong = 'musik1.mp3';
-
 let currentCover = 'cover1.jpeg';
-
 let messageSlide = 0;
-
 let isChangingPage = false;
 
 /* =====================================================
    ELEMENT
 ===================================================== */
 
-const pinScreen =
-  document.getElementById('pinScreen');
+const pinScreen = document.getElementById('pinScreen');
+const loadingScreen = document.getElementById('loadingScreen');
+const playlistScreen = document.getElementById('playlistScreen');
+const bookScreen = document.getElementById('bookScreen');
+const messageScreen = document.getElementById('messageScreen');
 
-const loadingScreen =
-  document.getElementById('loadingScreen');
+const dots = document.querySelectorAll('.dot');
 
-const playlistScreen =
-  document.getElementById('playlistScreen');
+const music = document.getElementById('music');
+const musicMini = document.getElementById('musicMini');
+const musicBtn = document.getElementById('musicBtn');
 
-const bookScreen =
-  document.getElementById('bookScreen');
-
-const messageScreen =
-  document.getElementById('messageScreen');
-
-const dots =
-  document.querySelectorAll('.dot');
-
-const music =
-  document.getElementById('music');
-
-const musicMini =
-  document.getElementById('musicMini');
-
-const musicBtn =
-  document.getElementById('musicBtn');
-
-const playlistCover =
-  document.getElementById('playlistCover');
+const playlistCover = document.getElementById('playlistCover');
 
 const loadingProgress =
   document.getElementById('loadingProgress');
@@ -1698,6 +1688,12 @@ const leftPage =
 
 const rightPage =
   document.getElementById('rightPage');
+
+const bookTapLeft =
+  document.getElementById('bookTapLeft');
+
+const bookTapRight =
+  document.getElementById('bookTapRight');
 
 /* =====================================================
    PIN
@@ -1851,13 +1847,7 @@ function selectSong(el){
 
   loadSong(currentSong);
 
-  /*
-    User tap sudah merupakan gesture.
-    Jadi play() aman di Safari/iPhone.
-  */
-
   playMusic();
-
 }
 
 function playMusic(){
@@ -1870,7 +1860,10 @@ function playMusic(){
 
   const promise = music.play();
 
-  if(promise && typeof promise.then === 'function'){
+  if(
+    promise &&
+    typeof promise.then === 'function'
+  ){
 
     promise
       .then(()=>{
@@ -1893,8 +1886,10 @@ function playMusic(){
 function toggleMusic(e){
 
   if(e){
+
     e.preventDefault();
     e.stopPropagation();
+
   }
 
   if(music.paused){
@@ -1910,11 +1905,6 @@ function toggleMusic(e){
   }
 
 }
-
-/*
-  Kalau file musik gagal ditemukan,
-  jangan bikin halaman error.
-*/
 
 music.addEventListener('error',()=>{
 
@@ -1933,7 +1923,6 @@ function showLoading(){
   let progress = 0;
 
   loadingProgress.style.width = '0%';
-
   loadingPercent.textContent = '0%';
 
   const timer = setInterval(()=>{
@@ -1983,12 +1972,6 @@ function showLoading(){
 
         playlistScreen.classList.remove('hidden');
 
-        /*
-          Jangan autoplay di sini.
-          iPhone sering memblokir autoplay
-          sebelum user melakukan gesture.
-        */
-
         loadSong(currentSong);
 
       },400);
@@ -2000,12 +1983,26 @@ function showLoading(){
 }
 
 /* =====================================================
-   BOOK
+   MINI BOOK
 ===================================================== */
+
+/*
+  Sistem halaman dibuat berdasarkan INDEX FOTO,
+  bukan berdasarkan spread.
+
+  bookPage:
+  0 = foto1 | foto3
+  1 = foto3 | foto2
+  2 = foto2 | foto4
+
+  Setelah bookPage 2, masuk ke ucapan.
+*/
 
 function openBook(){
 
   playlistScreen.classList.add('hidden');
+
+  messageScreen.style.display = 'none';
 
   bookScreen.classList.remove('hidden');
 
@@ -2015,27 +2012,25 @@ function openBook(){
 
   renderBook();
 
-  /*
-    Musik tetap menggunakan lagu yang
-    sebelumnya dipilih.
-  */
-
   if(music.paused){
     playMusic();
   }
 
 }
 
-function renderBook(direction = 'none'){
+function renderBook(direction='none'){
+
+  /*
+    Spread:
+    kiri = BOOK_PAGES[bookPage]
+    kanan = BOOK_PAGES[bookPage + 1]
+  */
 
   const leftIndex = bookPage;
   const rightIndex = bookPage + 1;
 
-  const leftData =
-    BOOK_PAGES[leftIndex];
-
-  const rightData =
-    BOOK_PAGES[rightIndex];
+  const leftData = BOOK_PAGES[leftIndex];
+  const rightData = BOOK_PAGES[rightIndex];
 
   updatePage(
     leftPage,
@@ -2069,26 +2064,6 @@ function updatePage(
   const inner =
     container.querySelector('.page-content-inner');
 
-  if(!inner){
-    return;
-  }
-
-  inner.classList.remove(
-    'page-change-out',
-    'page-change-in'
-  );
-
-  /*
-    Force browser reflow agar animasi
-    tidak macet di Safari.
-  */
-
-  void inner.offsetWidth;
-
-  if(direction !== 'none'){
-    inner.classList.add('page-change-in');
-  }
-
   const photo =
     container.querySelector('.photo');
 
@@ -2098,20 +2073,6 @@ function updatePage(
   const text =
     container.querySelector('.page-text');
 
-  if(data){
-
-    photo.src = data.photo;
-    title.textContent = data.title;
-    text.textContent = data.text;
-
-  }else{
-
-    photo.removeAttribute('src');
-    title.textContent = '';
-    text.textContent = '';
-
-  }
-
   const pageNo =
     container.parentElement.querySelector(
       container === leftPage
@@ -2119,10 +2080,60 @@ function updatePage(
         : '.right-no'
     );
 
-  if(pageNo){
+  if(!inner){
+    return;
+  }
 
-    pageNo.textContent =
-      data ? String(index + 1).padStart(2,'0') : '';
+  /*
+    Reset animasi.
+  */
+
+  inner.classList.remove('page-change-in');
+
+  void inner.offsetWidth;
+
+  if(direction !== 'none'){
+    inner.classList.add('page-change-in');
+  }
+
+  /*
+    Kalau halaman punya data,
+    isi foto + judul + teks.
+  */
+
+  if(data){
+
+    photo.src = data.photo;
+    photo.alt = data.title || 'Foto kenangan';
+
+    title.textContent =
+      data.title || '';
+
+    text.textContent =
+      data.text || '';
+
+    if(pageNo){
+
+      pageNo.textContent =
+        String(index + 1).padStart(2,'0');
+
+    }
+
+  }else{
+
+    /*
+      Halaman kosong.
+    */
+
+    photo.removeAttribute('src');
+    photo.alt = '';
+
+    title.textContent = '';
+    text.textContent = '';
+
+    if(pageNo){
+      pageNo.textContent = '';
+    }
 
   }
 
@@ -2130,27 +2141,34 @@ function updatePage(
 
 function updateIndicator(){
 
+  const indicator =
+    document.getElementById('indicator');
+
+  if(!indicator){
+    return;
+  }
+
   if(bookPage === 0){
 
-    document.getElementById('indicator').textContent =
+    indicator.textContent =
       'TAP KANAN UNTUK MELANJUTKAN • SWIPE';
 
-  }else if(bookPage >= 2){
+  }else if(bookPage === 1){
 
-    document.getElementById('indicator').textContent =
-      'TAP KANAN UNTUK UCAPAN ✦';
+    indicator.textContent =
+      'TAP KANAN UNTUK MELANJUTKAN ✦';
 
   }else{
 
-    document.getElementById('indicator').textContent =
-      'TAP KANAN UNTUK MELANJUTKAN ✦';
+    indicator.textContent =
+      'TAP KANAN UNTUK UCAPAN ✦';
 
   }
 
 }
 
 /* =====================================================
-   NEXT BOOK PAGE
+   NEXT BOOK
 ===================================================== */
 
 function nextPage(){
@@ -2160,29 +2178,34 @@ function nextPage(){
   }
 
   /*
-    Halaman:
-    0 = foto 1 + foto 2
-    1 = foto 2 + foto 3
-    2 = foto 3 + foto 4
-    setelah itu masuk ucapan
+    0:
+    foto1 | foto3
+
+    1:
+    foto3 | foto2
+
+    2:
+    foto2 | foto4
+
+    setelah 2:
+    masuk ucapan
   */
 
   if(bookPage < 2){
 
     isChangingPage = true;
 
-    bookPage++;
+    bookPage += 1;
 
     renderBook('next');
 
-    setTimeout(()=>{
+    window.setTimeout(()=>{
 
       isChangingPage = false;
 
-    },320);
+    },280);
 
     return;
-
   }
 
   finishBook();
@@ -2190,7 +2213,7 @@ function nextPage(){
 }
 
 /* =====================================================
-   PREVIOUS BOOK PAGE
+   PREVIOUS BOOK
 ===================================================== */
 
 function prevPage(){
@@ -2205,15 +2228,15 @@ function prevPage(){
 
   isChangingPage = true;
 
-  bookPage--;
+  bookPage -= 1;
 
   renderBook('prev');
 
-  setTimeout(()=>{
+  window.setTimeout(()=>{
 
     isChangingPage = false;
 
-  },320);
+  },280);
 
 }
 
@@ -2248,52 +2271,73 @@ function backToPlaylist(){
 }
 
 /* =====================================================
-   BOOK SWIPE
+   BOOK TOUCH / SWIPE
 ===================================================== */
 
 let bookStartX = 0;
 let bookStartY = 0;
+let bookTracking = false;
 
 bookScreen.addEventListener(
   'touchstart',
-  e=>{
+  function(e){
 
-    if(!e.touches || !e.touches[0]){
-      return;
+    if(
+      !bookScreen.classList.contains('hidden') &&
+      e.touches &&
+      e.touches.length === 1
+    ){
+
+      bookTracking = true;
+
+      bookStartX =
+        e.touches[0].clientX;
+
+      bookStartY =
+        e.touches[0].clientY;
+
     }
 
-    bookStartX =
-      e.touches[0].clientX;
-
-    bookStartY =
-      e.touches[0].clientY;
-
   },
-  {passive:true}
+  {
+    passive:true
+  }
 );
 
 bookScreen.addEventListener(
   'touchend',
-  e=>{
+  function(e){
 
     if(
+      !bookTracking ||
       !e.changedTouches ||
-      !e.changedTouches[0]
+      e.changedTouches.length === 0
     ){
       return;
     }
 
+    bookTracking = false;
+
+    const endX =
+      e.changedTouches[0].clientX;
+
+    const endY =
+      e.changedTouches[0].clientY;
+
     const dx =
-      e.changedTouches[0].clientX -
-      bookStartX;
+      endX - bookStartX;
 
     const dy =
-      e.changedTouches[0].clientY -
-      bookStartY;
+      endY - bookStartY;
+
+    /*
+      Hanya dianggap swipe kalau
+      gerakan horizontal cukup jelas.
+    */
 
     if(
-      Math.abs(dx) > 45 &&
-      Math.abs(dx) > Math.abs(dy)
+      Math.abs(dx) >= 45 &&
+      Math.abs(dx) > Math.abs(dy) * 1.2
     ){
 
       if(dx < 0){
@@ -2309,7 +2353,38 @@ bookScreen.addEventListener(
     }
 
   },
-  {passive:true}
+  {
+    passive:true
+  }
+);
+
+/*
+  Tap kanan / kiri dipisahkan dari swipe.
+  Ini lebih aman di iPhone.
+*/
+
+bookTapRight.addEventListener(
+  'click',
+  function(e){
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    nextPage();
+
+  }
+);
+
+bookTapLeft.addEventListener(
+  'click',
+  function(e){
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    prevPage();
+
+  }
 );
 
 /* =====================================================
@@ -2327,7 +2402,9 @@ function goMessageSlide(index){
   messageSlide = index;
 
   messageTrack.style.transform =
-    `translate3d(-${index * 33.333333}%,0,0)`;
+    'translate3d(-' +
+    (index * 33.333333) +
+    '%,0,0)';
 
   messageDots.forEach((dot,i)=>{
 
@@ -2373,29 +2450,34 @@ let messageStartY = 0;
 
 messageScreen.addEventListener(
   'touchstart',
-  e=>{
+  function(e){
 
-    if(!e.touches || !e.touches[0]){
-      return;
+    if(
+      e.touches &&
+      e.touches.length === 1
+    ){
+
+      messageStartX =
+        e.touches[0].clientX;
+
+      messageStartY =
+        e.touches[0].clientY;
+
     }
 
-    messageStartX =
-      e.touches[0].clientX;
-
-    messageStartY =
-      e.touches[0].clientY;
-
   },
-  {passive:true}
+  {
+    passive:true
+  }
 );
 
 messageScreen.addEventListener(
   'touchend',
-  e=>{
+  function(e){
 
     if(
       !e.changedTouches ||
-      !e.changedTouches[0]
+      e.changedTouches.length === 0
     ){
       return;
     }
@@ -2426,8 +2508,16 @@ messageScreen.addEventListener(
     }
 
   },
-  {passive:true}
+  {
+    passive:true
+  }
 );
+
+/* =====================================================
+   INITIAL BOOK
+===================================================== */
+
+renderBook();
 
 </script>
 
