@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Happy Birthday ♡</title>
 
 <style>
@@ -12,9 +12,11 @@
   box-sizing:border-box;
   margin:0;
   padding:0;
+  -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+html,
+body{
   width:100%;
   height:100%;
   overflow:hidden;
@@ -28,15 +30,16 @@ body{
 
 button{
   font-family:inherit;
+  -webkit-appearance:none;
 }
 
 .hidden{
   display:none!important;
 }
 
-/* =========================
+/* =====================================================
    PIN
-========================= */
+===================================================== */
 
 #pinScreen{
   position:fixed;
@@ -131,9 +134,9 @@ button{
   color:#7893a9;
 }
 
-/* =========================
+/* =====================================================
    LOADING
-========================= */
+===================================================== */
 
 #loadingScreen{
   position:fixed;
@@ -204,9 +207,9 @@ button{
   color:#6d8ba2;
 }
 
-/* =========================
+/* =====================================================
    PLAYLIST
-========================= */
+===================================================== */
 
 #playlistScreen{
   position:fixed;
@@ -240,6 +243,7 @@ button{
   height:74px;
   border-radius:20px;
   object-fit:cover;
+  background:#e7f3fc;
 }
 
 .pl-kicker{
@@ -290,6 +294,7 @@ button{
   height:42px;
   object-fit:cover;
   border-radius:10px;
+  background:#e7f3fc;
 }
 
 .song-num{
@@ -302,6 +307,7 @@ button{
   color:#27618b;
   font-size:11px;
   font-weight:700;
+  flex:0 0 27px;
 }
 
 .song-name{
@@ -333,10 +339,10 @@ button{
   cursor:pointer;
 }
 
-/* =========================
+/* =====================================================
    MINI BOOK
-   TANPA COVER DEPAN
-========================= */
+   STABIL UNTUK IPHONE
+===================================================== */
 
 #bookScreen{
   position:fixed;
@@ -347,7 +353,8 @@ button{
   justify-content:center;
   background:
     radial-gradient(circle at center,#fff 0,#edf7ff 48%,#c5def2 100%);
-  padding:20px 10px;
+  padding:15px 8px;
+  touch-action:pan-y;
 }
 
 .book-wrap{
@@ -360,16 +367,23 @@ button{
 .book{
   position:relative;
   width:min(820px,94vw);
-  height:min(540px,70vh);
+  height:min(540px,72vh);
   min-height:350px;
   filter:drop-shadow(0 25px 28px rgba(34,77,112,.22));
 }
+
+/* Buku */
 
 .book-base{
   position:absolute;
   inset:0;
   border-radius:12px 22px 22px 12px;
-  background:linear-gradient(90deg,#b9d5ec,#e9f6ff 48%,#b7d3ea);
+  background:linear-gradient(
+    90deg,
+    #b9d5ec,
+    #e9f6ff 48%,
+    #b7d3ea
+  );
   box-shadow:inset 0 0 30px rgba(28,75,111,.18);
 }
 
@@ -382,23 +396,33 @@ button{
   background:white;
 }
 
-.sheet{
+/* SETIAP HALAMAN */
+
+.book-page{
   position:relative;
   width:50%;
   height:100%;
   overflow:hidden;
-  background:linear-gradient(to right,#f5fbff,#fff);
+  background:linear-gradient(
+    to right,
+    #f5fbff,
+    #fff
+  );
 }
 
-.sheet.right{
-  background:linear-gradient(to left,#f5fbff,#fff);
+.book-page.right-page{
+  background:linear-gradient(
+    to left,
+    #f5fbff,
+    #fff
+  );
 }
 
-.sheet+.sheet{
-  border-left:1px solid #d7e8f5;
+.book-page.left-page{
+  border-right:1px solid #d7e8f5;
 }
 
-.sheet:after{
+.book-page:after{
   content:"";
   position:absolute;
   inset:13px;
@@ -419,7 +443,6 @@ button{
   padding:30px;
 }
 
-/* FOTO 9:16 */
 .photo{
   width:min(42%,190px);
   aspect-ratio:9 / 16;
@@ -429,7 +452,6 @@ button{
   background:white;
   border:1px solid #d6e7f3;
   box-shadow:0 10px 22px rgba(39,83,115,.17);
-  transform:rotate(var(--r));
   border-radius:4px;
 }
 
@@ -464,51 +486,64 @@ button{
   right:20px;
 }
 
-/* HALAMAN FLIP */
-.flip{
-  position:absolute;
-  top:3%;
-  right:3%;
-  width:47%;
-  height:94%;
-  z-index:15;
-  transform-origin:left center;
-  transform-style:preserve-3d;
-  transition:transform 1s cubic-bezier(.65,.05,.25,1);
-  display:none;
+/* PAGE TRANSITION */
+
+.page-content-inner{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  will-change:opacity,transform;
 }
 
-.flip.flipped{
-  transform:rotateY(-180deg);
+.page-change-out{
+  animation:pageOut .22s ease forwards;
 }
 
-.flip-face{
-  position:absolute;
-  inset:0;
-  backface-visibility:hidden;
-  background:linear-gradient(to left,#fff,#eef8ff);
-  overflow:hidden;
+.page-change-in{
+  animation:pageIn .28s ease forwards;
 }
 
-.flip-face.back{
-  transform:rotateY(180deg);
-  background:linear-gradient(to right,#eef8ff,#fff);
+@keyframes pageOut{
+  from{
+    opacity:1;
+    transform:translateX(0);
+  }
+  to{
+    opacity:0;
+    transform:translateX(-14px);
+  }
 }
 
-.tap{
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateX(14px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+/* AREA TAP */
+
+.book-tap{
   position:absolute;
   top:3%;
   bottom:3%;
   width:45%;
-  z-index:30;
+  z-index:10;
   cursor:pointer;
 }
 
-.tap.left{
+.book-tap.left{
   left:3%;
 }
 
-.tap.right{
+.book-tap.right{
   right:3%;
 }
 
@@ -517,11 +552,12 @@ button{
   color:#5f8099;
   font-size:11px;
   letter-spacing:1px;
+  text-align:center;
 }
 
-/* =========================
+/* =====================================================
    UCAPAN
-========================= */
+===================================================== */
 
 #messageScreen{
   position:fixed;
@@ -549,13 +585,14 @@ button{
 .message-track{
   display:flex;
   width:300%;
-  transition:transform .6s cubic-bezier(.65,.05,.25,1);
+  transition:transform .45s ease;
 }
 
 .message-slide{
   width:33.333333%;
   flex:0 0 33.333333%;
   min-height:500px;
+  max-height:78vh;
   padding:25px 28px;
   border-radius:30px;
   background:rgba(255,255,255,.94);
@@ -603,6 +640,7 @@ button{
   font-size:13px;
   line-height:1.75;
   text-align:center;
+  overflow-y:auto;
 }
 
 .signature{
@@ -619,9 +657,9 @@ button{
   color:#9ab1c1;
 }
 
-/* =========================
+/* =====================================================
    CAKE
-========================= */
+===================================================== */
 
 .birthday-cake{
   position:relative;
@@ -648,7 +686,11 @@ button{
   width:86px;
   height:55px;
   border-radius:10px 10px 18px 18px;
-  background:linear-gradient(to bottom,#fff 0 25%,#8ec4e8 25% 100%);
+  background:linear-gradient(
+    to bottom,
+    #fff 0 25%,
+    #8ec4e8 25% 100%
+  );
   border:3px solid #d6ecfa;
 }
 
@@ -689,7 +731,11 @@ button{
   width:9px;
   height:27px;
   border-radius:4px;
-  background:repeating-linear-gradient(135deg,#fff 0 5px,#78b5dc 5px 9px);
+  background:repeating-linear-gradient(
+    135deg,
+    #fff 0 5px,
+    #78b5dc 5px 9px
+  );
   z-index:4;
 }
 
@@ -719,9 +765,9 @@ button{
   animation:flame .8s ease-in-out infinite alternate;
 }
 
-/* =========================
+/* =====================================================
    NAVIGATION
-========================= */
+===================================================== */
 
 .slide-dots{
   display:flex;
@@ -773,9 +819,9 @@ button{
   font-weight:700;
 }
 
-/* =========================
-   MUSIC
-========================= */
+/* =====================================================
+   MUSIC MINI
+===================================================== */
 
 .music-mini{
   position:fixed;
@@ -785,18 +831,11 @@ button{
   display:flex;
   align-items:center;
   gap:9px;
-  padding:7px 13px 7px 7px;
+  padding:7px 13px;
   border-radius:30px;
-  background:rgba(255,255,255,.88);
+  background:rgba(255,255,255,.9);
   border:1px solid white;
   box-shadow:0 8px 25px rgba(39,87,124,.14);
-}
-
-.music-mini img{
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  object-fit:cover;
 }
 
 .music-mini .mi{
@@ -813,9 +852,9 @@ button{
   cursor:pointer;
 }
 
-/* =========================
+/* =====================================================
    ANIMATION
-========================= */
+===================================================== */
 
 @keyframes shake{
   0%,100%{transform:translateX(0)}
@@ -832,9 +871,9 @@ button{
   }
 }
 
-/* =========================
+/* =====================================================
    MOBILE
-========================= */
+===================================================== */
 
 @media(max-width:650px){
 
@@ -879,7 +918,7 @@ button{
     line-height:1.45;
   }
 
-  .sheet:after{
+  .book-page:after{
     inset:7px;
   }
 
@@ -889,6 +928,7 @@ button{
 
   .message-slide{
     min-height:500px;
+    max-height:78vh;
     padding:18px 16px;
   }
 
@@ -924,9 +964,9 @@ button{
 
 <body>
 
-<!-- =========================
+<!-- =====================================================
      PIN
-========================= -->
+===================================================== -->
 
 <section id="pinScreen">
 
@@ -975,9 +1015,9 @@ button{
 
 </section>
 
-<!-- =========================
+<!-- =====================================================
      LOADING
-========================= -->
+===================================================== -->
 
 <section id="loadingScreen" class="hidden">
 
@@ -987,7 +1027,6 @@ button{
       src="logo.jpeg"
       class="loading-photo"
       alt="Loading"
-      onerror="this.onerror=null;this.src='logo.jpeg';"
     >
 
     <h2>Preparing something for you...</h2>
@@ -1008,9 +1047,9 @@ button{
 
 </section>
 
-<!-- =========================
+<!-- =====================================================
      PLAYLIST
-========================= -->
+===================================================== -->
 
 <section id="playlistScreen" class="hidden">
 
@@ -1127,9 +1166,9 @@ button{
 
 </section>
 
-<!-- =========================
+<!-- =====================================================
      MINI BOOK
-========================= -->
+===================================================== -->
 
 <section id="bookScreen" class="hidden">
 
@@ -1141,193 +1180,99 @@ button{
 
       <div class="spread">
 
-        <!-- PAGE 1 -->
+        <!-- HALAMAN KIRI -->
 
-        <div class="sheet left">
+        <div class="book-page left-page">
 
-          <div class="page-content">
+          <div class="page-content" id="leftPage">
 
-            <img
-              class="photo"
-              src="foto1.jpeg"
-              style="--r:-3deg"
-              alt="Foto 1"
-            >
+            <div class="page-content-inner">
 
-            <div class="page-title">
-              A stranger in My Chat
-            </div>
+              <img
+                class="photo"
+                id="leftPhoto"
+                src="foto1.jpeg"
+                alt="Foto"
+              >
 
-            <div class="page-text">
-              chat pertama kali buaya darat ke aku lucu bngt awal kenal 😆😍
+              <div class="page-title" id="leftTitle">
+                A stranger in My Chat
+              </div>
+
+              <div class="page-text" id="leftText">
+                chat pertama kali buaya darat ke aku lucu bngt awal kenal 😆😍
+              </div>
+
             </div>
 
           </div>
 
-          <span class="page-no left-no">01</span>
+          <span class="page-no left-no" id="leftNo">
+            01
+          </span>
 
         </div>
 
-        <!-- PAGE 2 -->
+        <!-- HALAMAN KANAN -->
 
-        <div class="sheet right">
+        <div class="book-page right-page">
 
-          <div class="page-content">
+          <div class="page-content" id="rightPage">
 
-            <img
-              class="photo"
-              src="foto2.jpeg"
-              style="--r:3deg"
-              alt="Foto 2"
-            >
+            <div class="page-content-inner">
 
-            <div class="page-title">
-              The Flower You Sent Me 🌷
-            </div>
+              <img
+                class="photo"
+                id="rightPhoto"
+                src="foto2.jpeg"
+                alt="Foto"
+              >
 
-            <div class="page-text">
-              bunga ke sekian dri kamu love u 💗
-            </div>
+              <div class="page-title" id="rightTitle">
+                The Flower You Sent Me 🌷
+              </div>
 
-          </div>
+              <div class="page-text" id="rightText">
+                bunga ke sekian dri kamu love u 💗
+              </div>
 
-          <span class="page-no right-no">02</span>
-
-        </div>
-
-      </div>
-
-      <!-- FLIP 1 -->
-
-      <div class="flip" id="flip1">
-
-        <div class="flip-face">
-
-          <div class="page-content">
-
-            <img
-              class="photo"
-              src="foto2.jpeg"
-              style="--r:3deg"
-              alt="Foto 2"
-            >
-
-            <div class="page-title">
-              The Flower You Sent Me 🌷
-            </div>
-
-            <div class="page-text">
-              bunga ke sekian dri kamu love u 💗
             </div>
 
           </div>
 
-        </div>
-
-        <div class="flip-face back">
-
-          <div class="page-content">
-
-            <img
-              class="photo"
-              src="foto3.jpeg"
-              style="--r:-2deg"
-              alt="Foto 3"
-            >
-
-            <div class="page-title">
-              Our First Call
-            </div>
-
-            <div class="page-text">
-              hehe gemesh ini pertama kali kita vc an.
-              kami masih di homestay yg penuh sama barang-barang
-              dan background kardus huhu 😻🫰🏻
-            </div>
-
-          </div>
+          <span class="page-no right-no" id="rightNo">
+            02
+          </span>
 
         </div>
 
       </div>
 
-      <!-- FLIP 2 -->
-
-      <div class="flip" id="flip2">
-
-        <div class="flip-face">
-
-          <div class="page-content">
-
-            <img
-              class="photo"
-              src="foto3.jpeg"
-              style="--r:-2deg"
-              alt="Foto 3"
-            >
-
-            <div class="page-title">
-              Our First Call
-            </div>
-
-            <div class="page-text">
-              hehe gemesh ini pertama kali kita vc an.
-              masih di homestay dengan background kardus 😻🫰🏻
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="flip-face back">
-
-          <div class="page-content">
-
-            <img
-              class="photo"
-              src="foto4.jpeg"
-              style="--r:2deg"
-              alt="Foto 4"
-            >
-
-            <div class="page-title">
-              My Favorite Person
-            </div>
-
-            <div class="page-text">
-              dan ini adalah orang terfavorit aku sekarang
-              dan untuk kedepannya 💗
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
+      <!-- AREA KLIK -->
 
       <div
-        class="tap left"
+        class="book-tap left"
         onclick="prevPage()"
       ></div>
 
       <div
-        class="tap right"
+        class="book-tap right"
         onclick="nextPage()"
       ></div>
 
     </div>
 
     <div class="indicator" id="indicator">
-      TAP KANAN UNTUK MEMBUKA • SWIPE
+      TAP KANAN UNTUK MELANJUTKAN • SWIPE
     </div>
 
   </div>
 
 </section>
 
-<!-- =========================
+<!-- =====================================================
      UCAPAN
-========================= -->
+===================================================== -->
 
 <section id="messageScreen">
 
@@ -1614,13 +1559,9 @@ button{
 
     <div class="message-nav">
 
-      <button onclick="prevMessageSlide()">
-        ←
-      </button>
+      <button onclick="prevMessageSlide()">←</button>
 
-      <button onclick="nextMessageSlide()">
-        →
-      </button>
+      <button onclick="nextMessageSlide()">→</button>
 
     </div>
 
@@ -1628,16 +1569,16 @@ button{
 
 </section>
 
-<!-- =========================
+<!-- =====================================================
      MINI PLAYER
-========================= -->
+===================================================== -->
 
 <div
   class="music-mini hidden"
   id="musicMini"
 >
   <span class="mi">
-    music
+    ♪ music
   </span>
 
   <button
@@ -1646,38 +1587,66 @@ button{
   >
     ❚❚
   </button>
-
 </div>
 
 <audio
   id="music"
   loop
   preload="auto"
+  playsinline
 ></audio>
 
 <script>
 
-/* =========================
+/* =====================================================
    DATA
-========================= */
+===================================================== */
 
 const CORRECT_PIN = '1009';
 
+const BOOK_PAGES = [
+
+  {
+    photo:'foto1.jpeg',
+    title:'A stranger in My Chat',
+    text:'chat pertama kali buaya darat ke aku lucu bngt awal kenal 😆😍'
+  },
+
+  {
+    photo:'foto2.jpeg',
+    title:'The Flower You Sent Me 🌷',
+    text:'bunga ke sekian dri kamu love u 💗'
+  },
+
+  {
+    photo:'foto3.jpeg',
+    title:'Our First Call',
+    text:'hehe gemesh ini pertama kali kita vc an. kami masih di homestay yg penuh sama barang-barang dan background kardus huhu 😻🫰🏻'
+  },
+
+  {
+    photo:'foto4.jpeg',
+    title:'My Favorite Person',
+    text:'dan ini adalah orang terfavorit aku sekarang dan untuk kedepannya 💗'
+  }
+
+];
+
 let entered = '';
 
-let bookState = 0;
-
-let flipping = false;
+let bookPage = 0;
 
 let currentSong = 'musik1.mp3';
 
-let currentCover = 'cover1.jpg';
+let currentCover = 'cover1.jpeg';
 
 let messageSlide = 0;
 
-/* =========================
+let isChangingPage = false;
+
+/* =====================================================
    ELEMENT
-========================= */
+===================================================== */
 
 const pinScreen =
   document.getElementById('pinScreen');
@@ -1697,18 +1666,6 @@ const messageScreen =
 const dots =
   document.querySelectorAll('.dot');
 
-const cover =
-  document.getElementById('cover');
-
-const flip1 =
-  document.getElementById('flip1');
-
-const flip2 =
-  document.getElementById('flip2');
-
-const indicator =
-  document.getElementById('indicator');
-
 const music =
   document.getElementById('music');
 
@@ -1720,9 +1677,6 @@ const musicBtn =
 
 const playlistCover =
   document.getElementById('playlistCover');
-
-const miniCover =
-  document.getElementById('miniCover');
 
 const loadingProgress =
   document.getElementById('loadingProgress');
@@ -1739,9 +1693,15 @@ const messageTrack =
 const messageDots =
   document.querySelectorAll('.slide-dot');
 
-/* =========================
+const leftPage =
+  document.getElementById('leftPage');
+
+const rightPage =
+  document.getElementById('rightPage');
+
+/* =====================================================
    PIN
-========================= */
+===================================================== */
 
 function pressKey(key){
 
@@ -1839,25 +1799,35 @@ window.addEventListener('keydown',e=>{
 
 });
 
-/* =========================
+/* =====================================================
    MUSIC
-========================= */
+===================================================== */
 
 function loadSong(src){
 
-  currentSong = src || 'musik1.mp3';
+  if(!src){
+    return;
+  }
+
+  currentSong = src;
 
   music.pause();
 
-  music.src = currentSong;
+  music.removeAttribute('src');
 
-  music.currentTime = 0;
+  music.load();
+
+  music.src = currentSong;
 
   music.load();
 
 }
 
 function selectSong(el){
+
+  if(!el){
+    return;
+  }
 
   document
     .querySelectorAll('.song')
@@ -1868,15 +1838,23 @@ function selectSong(el){
   el.classList.add('active');
 
   currentSong =
-    el.dataset.song || 'musik1.mp3';
+    el.getAttribute('data-song') ||
+    'musik1.mp3';
 
   currentCover =
-    el.dataset.cover || 'cover1.jpg';
+    el.getAttribute('data-cover') ||
+    'cover1.jpeg';
 
-  playlistCover.src = currentCover;
-  miniCover.src = currentCover;
+  if(playlistCover){
+    playlistCover.src = currentCover;
+  }
 
   loadSong(currentSong);
+
+  /*
+    User tap sudah merupakan gesture.
+    Jadi play() aman di Safari/iPhone.
+  */
 
   playMusic();
 
@@ -1884,27 +1862,38 @@ function selectSong(el){
 
 function playMusic(){
 
+  if(!music.src){
+    loadSong(currentSong);
+  }
+
   music.volume = 0.5;
 
-  music.play()
-    .then(()=>{
+  const promise = music.play();
 
-      musicMini.classList.remove('hidden');
+  if(promise && typeof promise.then === 'function'){
 
-      musicBtn.textContent = '❚❚';
+    promise
+      .then(()=>{
 
-    })
-    .catch(()=>{
+        musicMini.classList.remove('hidden');
 
-      musicBtn.textContent = '▶';
+        musicBtn.textContent = '❚❚';
 
-    });
+      })
+      .catch(()=>{
+
+        musicBtn.textContent = '▶';
+
+      });
+
+  }
 
 }
 
 function toggleMusic(e){
 
   if(e){
+    e.preventDefault();
     e.stopPropagation();
   }
 
@@ -1922,15 +1911,30 @@ function toggleMusic(e){
 
 }
 
-/* =========================
+/*
+  Kalau file musik gagal ditemukan,
+  jangan bikin halaman error.
+*/
+
+music.addEventListener('error',()=>{
+
+  musicBtn.textContent = '▶';
+
+});
+
+/* =====================================================
    LOADING
-========================= */
+===================================================== */
 
 function showLoading(){
 
   loadingScreen.classList.remove('hidden');
 
   let progress = 0;
+
+  loadingProgress.style.width = '0%';
+
+  loadingPercent.textContent = '0%';
 
   const timer = setInterval(()=>{
 
@@ -1979,21 +1983,25 @@ function showLoading(){
 
         playlistScreen.classList.remove('hidden');
 
+        /*
+          Jangan autoplay di sini.
+          iPhone sering memblokir autoplay
+          sebelum user melakukan gesture.
+        */
+
         loadSong(currentSong);
 
-        playMusic();
-
-      },500);
+      },400);
 
     }
 
-  },45);
+  },35);
 
 }
 
-/* =========================
-   OPEN BOOK
-========================= */
+/* =====================================================
+   BOOK
+===================================================== */
 
 function openBook(){
 
@@ -2001,95 +2009,177 @@ function openBook(){
 
   bookScreen.classList.remove('hidden');
 
-  bookState = 0;
+  bookPage = 0;
 
-  flipping = false;
+  isChangingPage = false;
 
-  flip1.classList.remove('flipped');
-  flip2.classList.remove('flipped');
+  renderBook();
 
-  flip1.style.display = 'none';
-  flip2.style.display = 'none';
-
-  indicator.textContent =
-    'TAP KANAN UNTUK MEMBUKA • SWIPE';
+  /*
+    Musik tetap menggunakan lagu yang
+    sebelumnya dipilih.
+  */
 
   if(music.paused){
-
-    loadSong(currentSong);
-
     playMusic();
+  }
+
+}
+
+function renderBook(direction = 'none'){
+
+  const leftIndex = bookPage;
+  const rightIndex = bookPage + 1;
+
+  const leftData =
+    BOOK_PAGES[leftIndex];
+
+  const rightData =
+    BOOK_PAGES[rightIndex];
+
+  updatePage(
+    leftPage,
+    leftData,
+    leftIndex,
+    direction
+  );
+
+  updatePage(
+    rightPage,
+    rightData,
+    rightIndex,
+    direction
+  );
+
+  updateIndicator();
+
+}
+
+function updatePage(
+  container,
+  data,
+  index,
+  direction
+){
+
+  if(!container){
+    return;
+  }
+
+  const inner =
+    container.querySelector('.page-content-inner');
+
+  if(!inner){
+    return;
+  }
+
+  inner.classList.remove(
+    'page-change-out',
+    'page-change-in'
+  );
+
+  /*
+    Force browser reflow agar animasi
+    tidak macet di Safari.
+  */
+
+  void inner.offsetWidth;
+
+  if(direction !== 'none'){
+    inner.classList.add('page-change-in');
+  }
+
+  const photo =
+    container.querySelector('.photo');
+
+  const title =
+    container.querySelector('.page-title');
+
+  const text =
+    container.querySelector('.page-text');
+
+  if(data){
+
+    photo.src = data.photo;
+    title.textContent = data.title;
+    text.textContent = data.text;
+
+  }else{
+
+    photo.removeAttribute('src');
+    title.textContent = '';
+    text.textContent = '';
+
+  }
+
+  const pageNo =
+    container.parentElement.querySelector(
+      container === leftPage
+        ? '.left-no'
+        : '.right-no'
+    );
+
+  if(pageNo){
+
+    pageNo.textContent =
+      data ? String(index + 1).padStart(2,'0') : '';
 
   }
 
 }
 
-/* =========================
-   NEXT PAGE
-========================= */
+function updateIndicator(){
+
+  if(bookPage === 0){
+
+    document.getElementById('indicator').textContent =
+      'TAP KANAN UNTUK MELANJUTKAN • SWIPE';
+
+  }else if(bookPage >= 2){
+
+    document.getElementById('indicator').textContent =
+      'TAP KANAN UNTUK UCAPAN ✦';
+
+  }else{
+
+    document.getElementById('indicator').textContent =
+      'TAP KANAN UNTUK MELANJUTKAN ✦';
+
+  }
+
+}
+
+/* =====================================================
+   NEXT BOOK PAGE
+===================================================== */
 
 function nextPage(){
 
-  if(flipping){
+  if(isChangingPage){
     return;
   }
 
-  if(bookState === 0){
+  /*
+    Halaman:
+    0 = foto 1 + foto 2
+    1 = foto 2 + foto 3
+    2 = foto 3 + foto 4
+    setelah itu masuk ucapan
+  */
 
-    bookState = 1;
+  if(bookPage < 2){
 
-    indicator.textContent =
-      'TAP KANAN UNTUK MELANJUTKAN ✦';
+    isChangingPage = true;
 
-    return;
+    bookPage++;
 
-  }
-
-  if(bookState === 1){
-
-    flipping = true;
-
-    flip1.style.display = 'block';
-
-    requestAnimationFrame(()=>{
-
-      flip1.classList.add('flipped');
-
-    });
-
-    bookState = 2;
-
-    indicator.textContent =
-      'TAP KANAN UNTUK MELANJUTKAN ✦';
+    renderBook('next');
 
     setTimeout(()=>{
-      flipping = false;
-    },1050);
 
-    return;
+      isChangingPage = false;
 
-  }
-
-  if(bookState === 2){
-
-    flipping = true;
-
-    flip2.style.display = 'block';
-
-    requestAnimationFrame(()=>{
-
-      flip2.classList.add('flipped');
-
-    });
-
-    bookState = 3;
-
-    indicator.textContent =
-      'TAP KANAN UNTUK UCAPAN ✦';
-
-    setTimeout(()=>{
-      flipping = false;
-    },1050);
+    },320);
 
     return;
 
@@ -2099,80 +2189,37 @@ function nextPage(){
 
 }
 
-/* =========================
-   PREVIOUS PAGE
-========================= */
+/* =====================================================
+   PREVIOUS BOOK PAGE
+===================================================== */
 
 function prevPage(){
 
-  if(flipping){
+  if(isChangingPage){
     return;
   }
 
-  if(bookState === 0){
+  if(bookPage <= 0){
     return;
   }
 
-  if(bookState === 1){
+  isChangingPage = true;
 
-    bookState = 0;
+  bookPage--;
 
-    indicator.textContent =
-      'TAP KANAN UNTUK MEMBUKA • SWIPE';
+  renderBook('prev');
 
-    return;
+  setTimeout(()=>{
 
-  }
+    isChangingPage = false;
 
-  if(bookState === 2){
-
-    flipping = true;
-
-    flip1.classList.remove('flipped');
-
-    bookState = 1;
-
-    indicator.textContent =
-      'TAP KANAN UNTUK MELANJUTKAN ✦';
-
-    setTimeout(()=>{
-
-      flip1.style.display = 'none';
-
-      flipping = false;
-
-    },1050);
-
-    return;
-
-  }
-
-  if(bookState === 3){
-
-    flipping = true;
-
-    flip2.classList.remove('flipped');
-
-    bookState = 2;
-
-    indicator.textContent =
-      'TAP KANAN UNTUK MELANJUTKAN ✦';
-
-    setTimeout(()=>{
-
-      flip2.style.display = 'none';
-
-      flipping = false;
-
-    },1050);
-
-  }
+  },320);
 
 }
 
-/* =========================
+/* =====================================================
    FINISH BOOK
-========================= */
+===================================================== */
 
 function finishBook(){
 
@@ -2184,15 +2231,11 @@ function finishBook(){
 
   musicMini.classList.remove('hidden');
 
-  if(music.paused){
-    playMusic();
-  }
-
 }
 
-/* =========================
+/* =====================================================
    BACK TO PLAYLIST
-========================= */
+===================================================== */
 
 function backToPlaylist(){
 
@@ -2202,19 +2245,11 @@ function backToPlaylist(){
 
   goMessageSlide(0);
 
-  if(music.paused){
-
-    loadSong(currentSong);
-
-    playMusic();
-
-  }
-
 }
 
-/* =========================
+/* =====================================================
    BOOK SWIPE
-========================= */
+===================================================== */
 
 let bookStartX = 0;
 let bookStartY = 0;
@@ -2222,6 +2257,10 @@ let bookStartY = 0;
 bookScreen.addEventListener(
   'touchstart',
   e=>{
+
+    if(!e.touches || !e.touches[0]){
+      return;
+    }
 
     bookStartX =
       e.touches[0].clientX;
@@ -2237,6 +2276,13 @@ bookScreen.addEventListener(
   'touchend',
   e=>{
 
+    if(
+      !e.changedTouches ||
+      !e.changedTouches[0]
+    ){
+      return;
+    }
+
     const dx =
       e.changedTouches[0].clientX -
       bookStartX;
@@ -2246,14 +2292,18 @@ bookScreen.addEventListener(
       bookStartY;
 
     if(
-      Math.abs(dx) > 50 &&
+      Math.abs(dx) > 45 &&
       Math.abs(dx) > Math.abs(dy)
     ){
 
       if(dx < 0){
+
         nextPage();
+
       }else{
+
         prevPage();
+
       }
 
     }
@@ -2262,18 +2312,22 @@ bookScreen.addEventListener(
   {passive:true}
 );
 
-/* =========================
+/* =====================================================
    MESSAGE SLIDES
-========================= */
+===================================================== */
 
 function goMessageSlide(index){
 
-  index = Math.max(0,Math.min(2,index));
+  index =
+    Math.max(
+      0,
+      Math.min(2,index)
+    );
 
   messageSlide = index;
 
   messageTrack.style.transform =
-    `translateX(-${index * 33.333333}%)`;
+    `translate3d(-${index * 33.333333}%,0,0)`;
 
   messageDots.forEach((dot,i)=>{
 
@@ -2310,9 +2364,9 @@ function prevMessageSlide(){
 
 }
 
-/* =========================
+/* =====================================================
    MESSAGE SWIPE
-========================= */
+===================================================== */
 
 let messageStartX = 0;
 let messageStartY = 0;
@@ -2320,6 +2374,10 @@ let messageStartY = 0;
 messageScreen.addEventListener(
   'touchstart',
   e=>{
+
+    if(!e.touches || !e.touches[0]){
+      return;
+    }
 
     messageStartX =
       e.touches[0].clientX;
@@ -2335,6 +2393,13 @@ messageScreen.addEventListener(
   'touchend',
   e=>{
 
+    if(
+      !e.changedTouches ||
+      !e.changedTouches[0]
+    ){
+      return;
+    }
+
     const dx =
       e.changedTouches[0].clientX -
       messageStartX;
@@ -2349,9 +2414,13 @@ messageScreen.addEventListener(
     ){
 
       if(dx < 0){
+
         nextMessageSlide();
+
       }else{
+
         prevMessageSlide();
+
       }
 
     }
